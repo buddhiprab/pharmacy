@@ -10,13 +10,6 @@
             font-weight: bold;
             margin-bottom: 1em;
         }
-
-        #project-icon {
-            float: left;
-            height: 32px;
-            width: 32px;
-        }
-
         #project-description {
             margin: 0;
             padding: 0;
@@ -25,7 +18,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $(function () {
+        $(function() {
             var projects = [
                 {
                     "1": "2",
@@ -68,54 +61,83 @@
                     "Whatsapp No.": "0777318098",
                     "Viber No.": "",
                     "E mail": ""
+                }
+                /*{
+                    value1: "jquery",
+                    label: "jQuery",
+                    desc: "the write less, do more, JavaScript library",
+                    other: "9834275 9847598023 753425828975340 82974598823"
                 },
                 {
-                    "1": "5",
-                    "No": "4",
-                    "District": "Ampara",
-                    "MOH Area": "Dehiattakandiya",
-                    "Name of the Pharmacy": "Oslaka Pharmacy",
-                    "Address": "Dehiattakandiya",
-                    "Contact No.": "0705259783",
-                    "Pharmacist Name": "",
-                    "Owner": "",
-                    "Whatsapp No.": "0705259783",
-                    "Viber No.": "",
-                    "E mail": ""
-                }
+                    value1: "jquery-ui",
+                    label: "jQuery UI",
+                    desc: "the official user interface library for jQuery",
+                    other: "98 83475 9358 949078 8 40287089754 345 2345"
+                },
+                {
+                    value1: "sizzlejs",
+                    label: "Sizzle JS",
+                    desc: "a pure-JavaScript CSS selector engine",
+                    other: "49857 2389442 573489057 89024375 928037890"
+                }*/
             ];
 
-            $("#project").autocomplete({
+            function lightwell(request, response) {
+                function hasMatch(s) {
+                    return s.toLowerCase().indexOf(request.term.toLowerCase())!==-1;
+                }
+                var i, l, obj, matches = [];
+
+                if (request.term==="") {
+                    response([]);
+                    return;
+                }
+
+                for  (i = 0, l = projects.length; i<l; i++) {
+                    obj = projects[i];
+                    if (hasMatch(obj["District"]) || hasMatch(obj["MOH Area"]) || hasMatch(obj["Name of the Pharmacy"])) {
+                        matches.push(obj);
+                    }
+                }
+                response(matches);
+            }
+
+            $( "#project" ).autocomplete({
                 minLength: 0,
-                source: projects,
-                focus: function (event, ui) {
-                    $("#project").val(ui.item.District);
+                source: lightwell,
+                focus: function( event, ui ) {
+                    $( "#project" ).val( ui.item.label );
                     return false;
                 },
-                select: function (event, ui) {
-                    $("#project").val(ui.item.District);
-                    $("#project-id").val(ui.item.District);
-                    $("#project-description").html(ui.item.District);
-                    // $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
+                select: function( event, ui ) {
+                    $( "#project" ).val( ui.item.label );
+                    $( "#project-id" ).val( ui.item["District"] ); // is this needed?
+                    $( "#project-title" ).html( ui.item["MOH Area"] );
+                    $( "#project-description" ).html( ui.item["Name of the Pharmacy"] );
+                    $( "#project-other" ).html( ui.item["Contact No."] );
 
                     return false;
                 }
             })
-                .autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<div>" + item.District + "<br>" + item["MOH Area"] + "<br>" + item["Name of the Pharmacy"] + "</div>")
-                    .appendTo(ul);
+
+                .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+                return $( "<li>" )
+                    .append( "<a>" + item["District"] +
+                        "<br><span style='font-size: 80%;'>Desc: " + item["MOH Area"] + "</span>" +
+                        "<br><span style='font-size: 80%;'>Desc: " + item["Name of the Pharmacy"] + "</span>" +
+                        "<br><span style='font-size: 60%;'>Other: " + item["Contact No."] + "</span></a>" )
+                    .appendTo( ul );
             };
         });
+
     </script>
 </head>
 <body>
 
 <div id="project-label">Select a project (type "j" for a start):</div>
-<!--<img id="project-icon" src="images/transparent_1x1.png" class="ui-state-default" alt="">-->
-<input id="project">
-<input type="hidden" id="project-id">
-<p id="project-description"></p>
+<input id="project" />
+<input type="hidden" id="project-id" />
+<p id="project-title"></p><p id="project-description"></p><p id="project-other"></p>
 
 
 </body>
