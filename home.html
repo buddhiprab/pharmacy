@@ -4,19 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery UI Autocomplete - Custom data and display</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
         #project-label {
             display: block;
             font-weight: bold;
             margin-bottom: 1em;
         }
+
         #project-icon {
             float: left;
             height: 32px;
             width: 32px;
         }
+
         #project-description {
             margin: 0;
             padding: 0;
@@ -25,56 +25,94 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $( function() {
+        $(function () {
             var projects = [
                 {
-                    value: "jquery",
-                    label: "jQuery",
-                    desc: "the write less, do more, JavaScript library",
-                    icon: "jquery_32x32.png"
+                    "1": "2",
+                    "No": "1",
+                    "District": "Ampara",
+                    "MOH Area": "Akkaraipattu",
+                    "Name of the Pharmacy": "Osu Sala, Akkaraipattu",
+                    "Address": "74, TD/02, Akkaraipattu",
+                    "Contact No.": "",
+                    "Pharmacist Name": "Mr.Arshad",
+                    "Owner": "",
+                    "Whatsapp No.": "0773710480",
+                    "Viber No.": "0773710480",
+                    "E mail": ""
                 },
                 {
-                    value: "jquery-ui",
-                    label: "jQuery UI",
-                    desc: "the official user interface library for jQuery",
-                    icon: "jqueryui_32x32.png"
+                    "1": "3",
+                    "No": "2",
+                    "District": "Ampara",
+                    "MOH Area": "Ampara",
+                    "Name of the Pharmacy": "Osu Sala, Ampara",
+                    "Address": "Temple Junction, D. S. Senanayake Veediya, Ampara.",
+                    "Contact No.": "",
+                    "Pharmacist Name": "Ms.Devika",
+                    "Owner": "",
+                    "Whatsapp No.": "0718492104",
+                    "Viber No.": "0718492104",
+                    "E mail": ""
                 },
                 {
-                    value: "sizzlejs",
-                    label: "Sizzle JS",
-                    desc: "a pure-JavaScript CSS selector engine",
-                    icon: "sizzlejs_32x32.png"
+                    "1": "4",
+                    "No": "3",
+                    "District": "Ampara",
+                    "MOH Area": "Ampara",
+                    "Name of the Pharmacy": "Prabodha Pharmacy",
+                    "Address": "Ampara",
+                    "Contact No.": "0777318098",
+                    "Pharmacist Name": "",
+                    "Owner": "",
+                    "Whatsapp No.": "0777318098",
+                    "Viber No.": "",
+                    "E mail": ""
+                },
+                {
+                    "1": "5",
+                    "No": "4",
+                    "District": "Ampara",
+                    "MOH Area": "Dehiattakandiya",
+                    "Name of the Pharmacy": "Oslaka Pharmacy",
+                    "Address": "Dehiattakandiya",
+                    "Contact No.": "0705259783",
+                    "Pharmacist Name": "",
+                    "Owner": "",
+                    "Whatsapp No.": "0705259783",
+                    "Viber No.": "",
+                    "E mail": ""
                 }
             ];
 
-            $( "#project" ).autocomplete({
+            $("#project").autocomplete({
                 minLength: 0,
                 source: projects,
-                focus: function( event, ui ) {
-                    $( "#project" ).val( ui.item.label );
+                focus: function (event, ui) {
+                    $("#project").val(ui.item.District);
                     return false;
                 },
-                select: function( event, ui ) {
-                    $( "#project" ).val( ui.item.label );
-                    $( "#project-id" ).val( ui.item.value );
-                    $( "#project-description" ).html( ui.item.desc );
-                    $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
+                select: function (event, ui) {
+                    $("#project").val(ui.item.District);
+                    $("#project-id").val(ui.item.District);
+                    $("#project-description").html(ui.item.District);
+                    // $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
 
                     return false;
                 }
             })
-                .autocomplete( "instance" )._renderItem = function( ul, item ) {
-                return $( "<li>" )
-                    .append( "<div>" + item.label + "<br>" + item.desc + "</div>" )
-                    .appendTo( ul );
+                .autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<div>" + item.District + "<br>" + item["MOH Area"] + "<br>" + item["Name of the Pharmacy"] + "</div>")
+                    .appendTo(ul);
             };
-        } );
+        });
     </script>
 </head>
 <body>
 
 <div id="project-label">Select a project (type "j" for a start):</div>
-<img id="project-icon" src="images/transparent_1x1.png" class="ui-state-default" alt="">
+<!--<img id="project-icon" src="images/transparent_1x1.png" class="ui-state-default" alt="">-->
 <input id="project">
 <input type="hidden" id="project-id">
 <p id="project-description"></p>
